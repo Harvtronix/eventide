@@ -1,0 +1,43 @@
+//
+// this is a comment
+//
+
+define button-look [
+  look [
+    background = 'red'
+    foreground = 'green'
+  ]
+]
+
+define button [
+  look .button-look
+
+  show 'hello world'
+]
+
+define button [
+  show 'hi'
+]
+
+// fn do-work[string title, string stuff][
+  // the function contents
+// ]
+
+shape api-result [
+  int response-code
+  shape response [
+    // does this still work?
+    string foo
+    shape foo [
+      shape bar [
+        shape baz [
+          int hi
+        ]
+      ]
+    ]
+  ]
+]
+
+define root [
+  show .whatever
+]
