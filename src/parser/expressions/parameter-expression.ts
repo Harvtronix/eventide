@@ -2,7 +2,7 @@ import { types } from '../../token-maps/types.js'
 import { TokenType } from '../../token-type.js'
 import { Context } from '../context.js'
 import { ParserError } from '../parser-error.js'
-import { StatementVisitor } from '../statement-visitor.js'
+import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Statement } from '../statement.js'
 
 /**

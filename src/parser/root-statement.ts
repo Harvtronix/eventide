@@ -3,12 +3,11 @@ import { Token } from '../token.js'
 import { CommentStatement } from './statements/comment-statement.js'
 import { Context } from './context.js'
 import { DefineStatement } from './statements/define-statement.js'
-import { StatementVisitor } from './statement-visitor.js'
+import { StatementVisitor } from '../interpreter/statement-visitor.js'
 import { Statement } from './statement.js'
 import { ParserError } from './parser-error.js'
-import { ShapeStatement } from './statements/shape-statement.js'
 
-export class Program extends Statement {
+export class RootStatement extends Statement {
   public readonly statements: Statement[]
 
   public constructor(tokens: Token[]) {
@@ -27,14 +26,6 @@ export class Program extends Statement {
           this.statements.push(new DefineStatement(context))
           break
 
-        case TokenType.keyword_shape:
-          this.statements.push(new ShapeStatement(context))
-          break
-
-        // case TokenType.keyword_function:
-        //   this.statements.push(new FunctionStatement(context))
-        //   break
-
         default:
           throw new ParserError(context)
       }
@@ -42,6 +33,8 @@ export class Program extends Statement {
   }
 
   public accept(visitor: StatementVisitor): void {
-    throw new Error('Method not implemented.')
+    this.statements.forEach((statement) => {
+      statement.accept(visitor)
+    })
   }
 }

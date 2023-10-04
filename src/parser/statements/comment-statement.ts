@@ -1,6 +1,6 @@
 import { TokenType } from '../../token-type.js'
 import { Context } from '../context.js'
-import { StatementVisitor } from '../statement-visitor.js'
+import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Statement } from '../statement.js'
 
 /**
@@ -16,6 +16,6 @@ export class CommentStatement extends Statement {
   }
 
   public accept(visitor: StatementVisitor): void {
-    throw new Error('Method not implemented.')
+    visitor.visitComment(this)
   }
 }

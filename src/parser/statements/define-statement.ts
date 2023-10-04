@@ -1,5 +1,5 @@
 import { Statement } from '../statement.js'
-import { StatementVisitor } from '../statement-visitor.js'
+import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Context } from '../context.js'
 import { TokenType } from '../../token-type.js'
 import { DefineBody } from '../blocks/define-body.js'
@@ -32,6 +32,6 @@ export class DefineStatement extends Statement {
   }
 
   public accept(visitor: StatementVisitor): void {
-    throw new Error('Method not implemented.')
+    visitor.visitDefineStatement(this)
   }
 }

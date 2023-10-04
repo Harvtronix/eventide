@@ -1,7 +1,7 @@
 import { TokenType } from '../../token-type.js'
 import { Context } from '../context.js'
 import { ParameterExpression } from '../expressions/parameter-expression.js'
-import { StatementVisitor } from '../statement-visitor.js'
+import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Statement } from '../statement.js'
 
 /**

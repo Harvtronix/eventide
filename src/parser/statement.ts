@@ -1,5 +1,5 @@
 import { Context } from './context.js'
-import { StatementVisitor } from './statement-visitor.js'
+import { StatementVisitor } from '../interpreter/statement-visitor.js'
 
 export abstract class Statement {
   protected context: Context
