@@ -3,6 +3,9 @@ import { Context } from '../context.js'
 import { StatementVisitor } from '../statement-visitor.js'
 import { Statement } from '../statement.js'
 
+/**
+ * // some text
+ */
 export class CommentStatement extends Statement {
   public readonly value: string
 

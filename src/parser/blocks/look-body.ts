@@ -5,6 +5,11 @@ import { StatementVisitor } from '../statement-visitor.js'
 import { Statement } from '../statement.js'
 import { CommentStatement } from '../statements/comment-statement.js'
 
+/**[
+ *   background = bar
+ *   foreground = 'green'
+ * ]
+ */
 export class LookBody extends Statement {
   public readonly statements: Statement[]
 

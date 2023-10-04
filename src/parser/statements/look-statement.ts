@@ -6,6 +6,12 @@ import { ParserError } from '../parser-error.js'
 import { Reference } from '../reference.js'
 import { LookBody } from '../blocks/look-body.js'
 
+/**
+ * look foo
+ * look [
+ *   ...
+ * ]
+ */
 export class LookStatement extends Statement {
   public readonly value: Reference | LookBody
 
@@ -15,7 +21,7 @@ export class LookStatement extends Statement {
     context.next(TokenType.keyword_look)
 
     switch (context.peek().type) {
-      case TokenType.dot:
+      case TokenType.identifier:
         this.value = new Reference(context)
         break
       case TokenType.left_bracket:

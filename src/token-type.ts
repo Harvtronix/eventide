@@ -3,7 +3,7 @@ export enum TokenType {
   string_literal = 'string_literal',
 
   // keywords
-  keyword_define = 'define',
+  keyword_define = 'def',
   keyword_function = 'function',
   keyword_shape = 'shape',
   keyword_from = 'from',
@@ -19,10 +19,11 @@ export enum TokenType {
   type_string = 'string',
 
   // single chars
-  left_bracket = 'left_bracket',
-  right_bracket = 'right_bracket',
-  dot = 'dot',
-  equals = 'equals',
+  left_bracket = '[',
+  right_bracket = ']',
+  dot = '.',
+  comma = ',',
+  equals = '=',
 
   identifier = 'identifier'
 }

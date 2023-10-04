@@ -11,7 +11,7 @@ export class ParserError extends Error {
     super(
       `Ln ${context.peek().line}, Col ${
         context.peek().col
-      }: Unexpected token: ${context.peek().value}${message}`
+      }: Unexpected token: "${context.peek().value}".${message}`
     )
   }
 }

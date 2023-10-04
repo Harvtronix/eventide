@@ -1,11 +1,15 @@
-import { Statement } from '../statement.js'
-import { StatementVisitor } from '../statement-visitor.js'
-import { Context } from '../context.js'
+import { types } from '../../token-maps/types.js'
 import { TokenType } from '../../token-type.js'
-import { types } from '../../types.js'
+import { Context } from '../context.js'
 import { ParserError } from '../parser-error.js'
+import { StatementVisitor } from '../statement-visitor.js'
+import { Statement } from '../statement.js'
 
-export class ShapePropertyStatement extends Statement {
+/**
+ * string foo
+ * boolean isEnabled
+ */
+export class ParameterExpression extends Statement {
   public readonly type: string
   public readonly identifier: string
 
@@ -13,7 +17,6 @@ export class ShapePropertyStatement extends Statement {
     super(context)
 
     this.type = context.next().value
-
     if (!(this.type in types)) {
       throw new ParserError(context, 'Expected type')
     }

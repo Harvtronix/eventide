@@ -1,13 +1,13 @@
-import { keywords } from './keywords.js'
+import { keywords } from './token-maps/keywords.js'
 import { TokenType } from './token-type.js'
 import { Token } from './token.js'
-import { types } from './types.js'
+import { types } from './token-maps/types.js'
 
 export class Lexer {
   private readonly source: string
   private readonly chars: string[]
 
-  private i: number
+  private pos: number
   private line: number
   private col: number
 
@@ -17,7 +17,7 @@ export class Lexer {
     this.source = source
     this.chars = Array.from(this.source)
 
-    this.i = 0
+    this.pos = 0
     this.line = 1
     this.col = 1
 
@@ -44,8 +44,8 @@ export class Lexer {
         case '[':
           this.addToken(
             TokenType.left_bracket,
-            this.i,
-            this.i + 1,
+            this.pos,
+            this.pos + 1,
             this.line,
             this.col
           )
@@ -54,22 +54,28 @@ export class Lexer {
         case ']':
           this.addToken(
             TokenType.right_bracket,
-            this.i,
-            this.i + 1,
+            this.pos,
+            this.pos + 1,
             this.line,
             this.col
           )
           this.next()
           break
         case '.':
-          this.addToken(TokenType.dot, this.i, this.i + 1, this.line, this.col)
+          this.addToken(
+            TokenType.dot,
+            this.pos,
+            this.pos + 1,
+            this.line,
+            this.col
+          )
           this.next()
           break
         case '=':
           this.addToken(
             TokenType.equals,
-            this.i,
-            this.i + 1,
+            this.pos,
+            this.pos + 1,
             this.line,
             this.col
           )
@@ -86,7 +92,7 @@ export class Lexer {
   }
 
   private isEof() {
-    return this.i >= this.chars.length
+    return this.pos >= this.chars.length
   }
 
   private isIdentifierStartChar(c: string) {
@@ -100,21 +106,23 @@ export class Lexer {
     return (
       ('a'.charCodeAt(0) <= c.charCodeAt(0) &&
         c.charCodeAt(0) <= 'z'.charCodeAt(0)) ||
+      ('0'.charCodeAt(0) <= c.charCodeAt(0) &&
+        c.charCodeAt(0) <= '9'.charCodeAt(0)) ||
       c === '-'
     )
   }
 
   private peek() {
-    return this.isEof() ? '' : this.chars[this.i]
+    return this.isEof() ? '' : this.chars[this.pos]
   }
 
   private next() {
     this.col++
-    return this.isEof() ? '' : this.chars[this.i++]
+    return this.isEof() ? '' : this.chars[this.pos++]
   }
 
   private handleComment() {
-    const tokenStart = this.i
+    const start = this.pos
 
     this.next()
     if (this.peek() !== '/') {
@@ -122,13 +130,13 @@ export class Lexer {
     }
 
     while (this.peek() !== '\n' && !this.isEof()) this.next()
-    this.addToken(TokenType.comment, tokenStart, this.i, this.line, this.col)
+    this.addToken(TokenType.comment, start, this.pos, this.line, this.col)
   }
 
   private handleString() {
     this.next()
 
-    const tokenStart = this.i
+    const start = this.pos
 
     while (this.peek() !== "'" && !this.isEof()) {
       this.next()
@@ -140,8 +148,8 @@ export class Lexer {
 
     this.addToken(
       TokenType.string_literal,
-      tokenStart,
-      this.i,
+      start,
+      this.pos,
       this.line,
       this.col
     )
@@ -154,7 +162,7 @@ export class Lexer {
     }
     // consume full identifier
     const identifier = []
-    const tokenStart = this.i
+    const start = this.pos
     let c = this.peek()
 
     while (this.isIdentifierChar(c)) {
@@ -168,42 +176,36 @@ export class Lexer {
     if (identifierString in keywords) {
       this.addToken(
         keywords[identifierString as keyof typeof keywords],
-        tokenStart,
-        this.i,
+        start,
+        this.pos,
         this.line,
         this.col
       )
     } else if (identifierString in types) {
       this.addToken(
         types[identifierString as keyof typeof types],
-        tokenStart,
-        this.i,
+        start,
+        this.pos,
         this.line,
         this.col
       )
     } else {
-      this.addToken(
-        TokenType.identifier,
-        tokenStart,
-        this.i,
-        this.line,
-        this.col
-      )
+      this.addToken(TokenType.identifier, start, this.pos, this.line, this.col)
     }
   }
 
   private addToken(
     type: TokenType,
-    tokenStart: number,
-    tokenEnd: number,
+    start: number,
+    end: number,
     line: number,
     col: number
   ) {
     this.tokens.push({
       type,
-      value: this.chars.slice(tokenStart, tokenEnd).join(''),
-      tokenStart,
-      tokenEnd,
+      value: this.chars.slice(start, end).join(''),
+      start,
+      end,
       line,
       col
     })

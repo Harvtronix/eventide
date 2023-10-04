@@ -1,43 +1,20 @@
-//
 // this is a comment
-//
+// from 'standard' use button
 
-define button-look [
+def root = [
   look [
-    background = 'red'
-    foreground = 'green'
+    background = 'black'
+    foreground = 'light-gray'
+    border = stuff
   ]
-]
 
-define button [
-  look .button-look
+  def custom-button[string text] = [
+    look button
+    look root
 
-  show 'hello world'
-]
-
-define button [
-  show 'hi'
-]
-
-// fn do-work[string title, string stuff][
-  // the function contents
-// ]
-
-shape api-result [
-  int response-code
-  shape response [
-    // does this still work?
-    string foo
-    shape foo [
-      shape bar [
-        shape baz [
-          int hi
-        ]
-      ]
-    ]
+    show text
   ]
-]
 
-define root [
-  show .whatever
+  show custom-button[text = 'hello world']
+  show custom-button[t = 'this works too, but it wont later!']
 ]

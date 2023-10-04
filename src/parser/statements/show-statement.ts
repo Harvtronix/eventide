@@ -6,8 +6,12 @@ import { Reference } from '../reference.js'
 import { StringLiteral } from './string-literal.js'
 import { ParserError } from '../parser-error.js'
 
+/**
+ * show foo
+ * show 'text'
+ */
 export class ShowStatement extends Statement {
-  public readonly value: Reference | StringLiteral
+  public readonly value: Reference | StringLiteral // | other literal values
 
   public constructor(context: Context) {
     super(context)
@@ -18,9 +22,11 @@ export class ShowStatement extends Statement {
       case TokenType.string_literal:
         this.value = new StringLiteral(context)
         break
-      case TokenType.dot:
+
+      case TokenType.identifier:
         this.value = new Reference(context)
         break
+
       default:
         throw new ParserError(context)
     }
