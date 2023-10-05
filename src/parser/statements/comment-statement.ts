@@ -7,15 +7,20 @@ import { Statement } from '../statement.js'
  * // some text
  */
 export class CommentStatement extends Statement {
+  public readonly end: number
   public readonly value: string
 
   public constructor(context: Context) {
     super(context)
 
-    this.value = context.next(TokenType.comment).value
+    const finalToken = context.next(TokenType.comment)
+
+    this.value = finalToken.value
+
+    this.end = finalToken.end
   }
 
-  public accept(visitor: StatementVisitor): void {
-    visitor.visitComment(this)
+  public accept(visitor: StatementVisitor) {
+    return visitor.visitComment(this)
   }
 }

@@ -2,19 +2,20 @@
 // from 'standard' use button
 
 def root = [
-//  look [
-//    background = 'black'
-//    foreground = 'light-gray'
-//    border = stuff
-//  ]
-
-  def custom-button[string text] = [
-//    look button
-//    look root
-
-//    show text
+  look wowza.crazy.foo.bar
+  look [
+    background = 'black'
+    foreground = 'light-gray'
+    border = stuff
   ]
 
-//  show custom-button[text = 'hello world']
-//  show custom-button[t = 'this works too, but it wont later!']
+  show custom-button[text = 'hello world', other = 'wow']
+  show custom-button[t = 'this works too, but it wont later!']
+]
+
+def custom-button[string text] = [
+  look button
+  look root
+
+  show text
 ]

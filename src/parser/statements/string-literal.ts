@@ -7,12 +7,17 @@ import { Statement } from '../statement.js'
  * 'some text'
  */
 export class StringLiteral extends Statement {
+  public readonly end: number
   public readonly value: string
 
   public constructor(context: Context) {
     super(context)
 
-    this.value = context.next(TokenType.string_literal).value
+    const finalToken = context.next(TokenType.string_literal)
+
+    this.value = finalToken.value
+
+    this.end = finalToken.end
   }
 
   public accept(visitor: StatementVisitor): void {

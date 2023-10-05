@@ -4,30 +4,30 @@ import { ParserError } from './parser-error.js'
 
 export class Context {
   public tokens: Token[]
-  public pos: number
+  public curTokenIndex: number
 
   public constructor(tokens: Context['tokens']) {
     this.tokens = tokens
-    this.pos = 0
+    this.curTokenIndex = 0
   }
 
   public isEof() {
-    return this.pos >= this.tokens.length
+    return this.peek().type === TokenType.eof
   }
 
   public peek<T extends TokenType = TokenType>(tokenType?: T): Token<T> {
-    if (tokenType && this.tokens[this.pos].type !== tokenType) {
+    if (tokenType && this.tokens[this.curTokenIndex].type !== tokenType) {
       throw new ParserError(this, `Expected "${tokenType}"`)
     }
 
-    return this.tokens[this.pos] as Token<T>
+    return this.tokens[this.curTokenIndex] as Token<T>
   }
 
   public next<T extends TokenType = TokenType>(tokenType?: T): Token<T> {
-    if (tokenType && this.tokens[this.pos].type !== tokenType) {
+    if (tokenType && this.tokens[this.curTokenIndex].type !== tokenType) {
       throw new ParserError(this, `Expected "${tokenType}"`)
     }
 
-    return this.tokens[this.pos++] as Token<T>
+    return this.tokens[this.curTokenIndex++] as Token<T>
   }
 }

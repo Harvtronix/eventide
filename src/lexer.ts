@@ -71,6 +71,16 @@ export class Lexer {
           )
           this.next()
           break
+        case ',':
+          this.addToken(
+            TokenType.comma,
+            this.pos,
+            this.pos + 1,
+            this.line,
+            this.col
+          )
+          this.next()
+          break
         case '=':
           this.addToken(
             TokenType.equals,
@@ -87,6 +97,8 @@ export class Lexer {
           break
       }
     }
+
+    this.addToken(TokenType.eof, this.pos, this.pos, this.line, 1)
 
     return this.tokens
   }

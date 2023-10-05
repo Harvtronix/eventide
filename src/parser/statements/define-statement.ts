@@ -11,9 +11,10 @@ import { ParametersBody } from '../blocks/parameters-body.js'
  * ]
  */
 export class DefineStatement extends Statement {
+  public readonly end: number
   public readonly identifier: string
-  public readonly parametersBody?: ParametersBody
-  public readonly defineBody: DefineBody
+  public readonly parameters?: ParametersBody
+  public readonly body: DefineBody
 
   public constructor(context: Context) {
     super(context)
@@ -23,15 +24,17 @@ export class DefineStatement extends Statement {
     this.identifier = context.next(TokenType.identifier).value
 
     if (context.peek().type === TokenType.left_bracket) {
-      this.parametersBody = new ParametersBody(context)
+      this.parameters = new ParametersBody(context)
     }
 
     context.next(TokenType.equals)
 
-    this.defineBody = new DefineBody(context)
+    this.body = new DefineBody(context)
+
+    this.end = this.body.end
   }
 
-  public accept(visitor: StatementVisitor): void {
-    visitor.visitDefineStatement(this)
+  public accept(visitor: StatementVisitor) {
+    return visitor.visitDefineStatement(this)
   }
 }

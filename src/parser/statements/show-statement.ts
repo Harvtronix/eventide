@@ -11,6 +11,7 @@ import { ParserError } from '../parser-error.js'
  * show 'text'
  */
 export class ShowStatement extends Statement {
+  public readonly end: number
   public readonly value: Reference | StringLiteral // | other literal values
 
   public constructor(context: Context) {
@@ -30,6 +31,8 @@ export class ShowStatement extends Statement {
       default:
         throw new ParserError(context)
     }
+
+    this.end = this.value.end
   }
 
   public accept(visitor: StatementVisitor): void {

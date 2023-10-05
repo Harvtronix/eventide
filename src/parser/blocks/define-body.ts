@@ -15,6 +15,7 @@ import { DefineStatement } from '../statements/define-statement.js'
  * ]
  */
 export class DefineBody extends Statement {
+  public readonly end: number
   public readonly statements: Statement[]
 
   public constructor(context: Context) {
@@ -50,7 +51,9 @@ export class DefineBody extends Statement {
       }
     }
 
-    context.next(TokenType.right_bracket)
+    const finalToken = context.next(TokenType.right_bracket)
+
+    this.end = finalToken.end
   }
 
   public accept(visitor: StatementVisitor): void {

@@ -11,6 +11,7 @@ import { CommentStatement } from '../statements/comment-statement.js'
  * ]
  */
 export class LookBody extends Statement {
+  public readonly end: number
   public readonly statements: Statement[]
 
   public constructor(context: Context) {
@@ -35,10 +36,12 @@ export class LookBody extends Statement {
       }
     }
 
-    context.next(TokenType.right_bracket)
+    const finalToken = context.next(TokenType.right_bracket)
+
+    this.end = finalToken.end
   }
 
   public accept(visitor: StatementVisitor): void {
-    throw new Error('Method not implemented.')
+    visitor.visitLookBody(this)
   }
 }

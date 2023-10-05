@@ -8,27 +8,24 @@ import { Statement } from '../statement.js'
  * [foo='bar', baz=false]
  */
 export class ArgumentsBody extends Statement {
-  public readonly arguments: BinaryExpression[]
+  public readonly end: number
+  public readonly entries: BinaryExpression[]
 
   public constructor(context: Context) {
     super(context)
 
-    this.arguments = []
-
     context.next(TokenType.left_bracket)
 
-    while (!context.isEof()) {
-      this.arguments.push(new BinaryExpression(context))
+    this.entries = [new BinaryExpression(context)]
 
-      if (context.peek().type === TokenType.right_bracket) {
-        // End of param list
-        break
-      }
-
+    while (context.peek().type !== TokenType.right_bracket) {
       context.next(TokenType.comma)
+      this.entries.push(new BinaryExpression(context))
     }
 
-    context.next(TokenType.right_bracket)
+    const finalToken = context.next(TokenType.right_bracket)
+
+    this.end = finalToken.end
   }
 
   public accept(visitor: StatementVisitor): void {

@@ -11,6 +11,7 @@ import { StringLiteral } from '../statements/string-literal.js'
  * this = 'foo'
  */
 export class BinaryExpression extends Statement {
+  public readonly end: number
   public readonly left: string
   public readonly right: StringLiteral | Reference // | Decimal | Boolean
 
@@ -33,6 +34,8 @@ export class BinaryExpression extends Statement {
       default:
         throw new ParserError(context, 'Expected string or identifier')
     }
+
+    this.end = this.right.end
   }
 
   public accept(visitor: StatementVisitor): void {

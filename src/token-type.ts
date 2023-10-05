@@ -25,5 +25,6 @@ export enum TokenType {
   comma = ',',
   equals = '=',
 
-  identifier = 'identifier'
+  identifier = 'identifier',
+  eof = '\0'
 }

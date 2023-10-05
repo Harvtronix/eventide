@@ -1,30 +1,30 @@
-import { RootStatement } from '../parser/root-statement.js'
-import { ScopeAnalyzer } from './scope-analyzer.js'
+import { Ast } from '../parser/ast.js'
+import { DefinitionFinder } from './definition-finder.js'
 
-export interface Cell {
+export interface Definition {
   identifier: string
   scope: Array<any>
 }
 
 export interface Memdef {
-  cells: Record<string, Cell>
+  cells: Record<string, Definition>
   scopeHierarchy: Array<string>
 }
 
 export class Program {
   public readonly scopeHierarchy: Array<string> = []
-  public readonly cells: Record<string, Cell> = {}
+  public readonly definitions: Record<string, Definition> = {}
 
-  public interpret(rootStatement: RootStatement) {
-    const scopeAnalyzer = new ScopeAnalyzer(this)
-    rootStatement.accept(scopeAnalyzer)
+  public interpret(rootStatement: Ast) {
+    const definitionFinder = new DefinitionFinder(this)
+    return rootStatement.accept(definitionFinder)
   }
 
-  public hasIdentifier(identifier: string) {
+  public hasDefinition(identifier: string) {
     const fullyQualifiedIdentifier = [...this.scopeHierarchy, identifier].join(
       '.'
     )
 
-    return fullyQualifiedIdentifier in this.cells
+    return fullyQualifiedIdentifier in this.definitions
   }
 }

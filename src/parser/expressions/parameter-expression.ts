@@ -10,6 +10,7 @@ import { Statement } from '../statement.js'
  * boolean isEnabled
  */
 export class ParameterExpression extends Statement {
+  public readonly end: number
   public readonly type: string
   public readonly identifier: string
 
@@ -21,7 +22,10 @@ export class ParameterExpression extends Statement {
       throw new ParserError(context, 'Expected type')
     }
 
-    this.identifier = context.next(TokenType.identifier).value
+    const finalToken = context.next(TokenType.identifier)
+    this.identifier = finalToken.value
+
+    this.end = finalToken.end
   }
 
   public accept(visitor: StatementVisitor): void {

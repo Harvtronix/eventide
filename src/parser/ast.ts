@@ -6,9 +6,11 @@ import { DefineStatement } from './statements/define-statement.js'
 import { StatementVisitor } from '../interpreter/statement-visitor.js'
 import { Statement } from './statement.js'
 import { ParserError } from './parser-error.js'
+import { Renderable } from '../interpreter/renderable.js'
 
-export class RootStatement extends Statement {
-  public readonly statements: Statement[]
+export class Ast extends Statement {
+  public readonly end: number
+  public readonly statements: Array<CommentStatement | DefineStatement>
 
   public constructor(tokens: Token[]) {
     const context = new Context(tokens)
@@ -30,11 +32,11 @@ export class RootStatement extends Statement {
           throw new ParserError(context)
       }
     }
+
+    this.end = context.peek().end
   }
 
-  public accept(visitor: StatementVisitor): void {
-    this.statements.forEach((statement) => {
-      statement.accept(visitor)
-    })
+  public override accept(visitor: StatementVisitor): void {
+    visitor.visitAst(this)
   }
 }

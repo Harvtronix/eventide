@@ -13,6 +13,7 @@ import { LookBody } from '../blocks/look-body.js'
  * ]
  */
 export class LookStatement extends Statement {
+  public readonly end: number
   public readonly value: Reference | LookBody
 
   public constructor(context: Context) {
@@ -30,9 +31,11 @@ export class LookStatement extends Statement {
       default:
         throw new ParserError(context)
     }
+
+    this.end = this.value.end
   }
 
   public accept(visitor: StatementVisitor): void {
-    throw new Error('Method not implemented.')
+    visitor.visitLookStatement(this)
   }
 }
