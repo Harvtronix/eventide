@@ -18,4 +18,5 @@ def custom-button[string text] = [
   look root
 
   show text
+  show 'something'
 ]

@@ -1,0 +1,75 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Eventide",
+  "scopeName": "source.eventide",
+  "patterns": [{ "include": "#statements" }, { "include": "#strings" }],
+  "repository": {
+    "statements": {
+      "patterns": [
+        { "include": "#comment-statement" },
+        { "include": "#define-statement" },
+        { "include": "#look-statement" },
+        { "include": "#show-statement" }
+      ]
+    },
+
+    "comment-statement": {
+      "match": "//.*$",
+      "name": "comment.line.eventide"
+    },
+
+    "define-statement": {
+      "match": "(def)\\s+([a-z0-9-]+)?(\\[(.+)\\s(.+)(,(.+)\\s(.+))*\\])?\\s*(=)?",
+      "captures": {
+        "1": { "name": "storage.type.eventide" },
+        "2": { "name": "entity.name.function.eventide" },
+        "4": { "name": "storage.type.eventide" },
+        "5": { "name": "variable.parameter.eventide" },
+        "7": { "name": "storage.type.eventide" },
+        "8": { "name": "variable.parameter.eventide" },
+        "9": { "name": "keyword.operator.assignment.eventide" }
+      }
+    },
+
+    "look-statement": {
+      "patterns": [
+        {
+          "match": "(look)\\s+([a-z0-9-\\.]+)?",
+          "captures": {
+            "1": { "name": "keyword.control.eventide" },
+            "2": { "name": "variable.other.eventide" }
+          }
+        },
+        {
+          "match": "(look)\\s+",
+          "captures": {
+            "1": { "name": "keyword.control.eventide" }
+          }
+        }
+      ]
+    },
+
+    "show-statement": {
+      "patterns": [
+        {
+          "match": "(show)",
+          "captures": {
+            "1": { "name": "keyword.control.eventide" }
+          }
+        }
+      ]
+    },
+
+    "strings": {
+      "name": "string.quoted.single.eventide",
+      "begin": "'",
+      "end": "'",
+      "patterns": [
+        {
+          "name": "constant.character.escape.eventide",
+          "match": "\\\\."
+        }
+      ]
+    }
+  }
+}

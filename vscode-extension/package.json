@@ -1,0 +1,34 @@
+{
+  "name": "harvtronix.eventide",
+  "displayName": "Eventide language support",
+  "description": "language support for the eventide programming language",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.83.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "eventide",
+        "aliases": [
+          "Eventide",
+          "eventide"
+        ],
+        "extensions": [
+          ".evn"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "eventide",
+        "scopeName": "source.eventide",
+        "path": "./syntaxes/eventide.tmLanguage.json"
+      }
+    ]
+  }
+}
