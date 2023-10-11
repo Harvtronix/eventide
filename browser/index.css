@@ -1,0 +1,44 @@
+:root {
+  margin: 0px !important;
+  padding: 0px !important;
+  font-size: 16px;
+  font-family: sans-serif;
+  color: #bbbbcc;
+}
+
+input {
+  color: #bbbbcc;
+  font-size: 16px;
+  padding: 0;
+  margin: 0;
+}
+
+#nav-bar {
+  background-color: #333344;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  padding-top: 7px;
+  padding-left: 20px;
+}
+
+#url-input {
+  background-color: #000011;
+  border: none;
+  border-radius: 20px;
+  width: 80%;
+  height: 30px;
+  padding: 0px 15px;
+  outline: none;
+}
+
+#main-content {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+  width: 100%;
+  height: calc(100% - 50px);
+  background-color: #ddddee;
+}
