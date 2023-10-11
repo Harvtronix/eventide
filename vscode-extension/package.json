@@ -1,5 +1,5 @@
 {
-  "name": "harvtronix.eventide",
+  "name": "@eventide/vscode-extension",
   "displayName": "Eventide language support",
   "description": "language support for the eventide programming language",
   "version": "0.0.1",
