@@ -1,4 +1,8 @@
-const { createConnection } = require('node:net')
+const {
+  ProtocolMessage,
+  MessageType: types
+} = require('./protocol/protocol-message')
+const { ProtocolSocket } = require('./protocol-socket')
 
 async function loadPageData(_event, url) {
   const parts = /^(evn:\/\/)(.+)\/(.+)$/.exec(url)
@@ -17,29 +21,15 @@ async function loadPageData(_event, url) {
     reject = rej
   })
 
-  const socket = createConnection({
-    port: 8088,
-    host,
-    timeout: 3
+  const socket = new ProtocolSocket(host, filePath)
+  socket.on('message', (msg) => {
+    if (msg.type === types.server.OK) {
+      resolve(msg.body)
+    } else {
+      reject(msg)
+    }
   })
-
-  /*
-  message format:
-    channel_id[1]
-    message_type[1]: client: [EMIT, QUERY], server: [OK, ERROR, DATA, END]
-                      EMIT -> OK|ERROR, QUERY->ERROR|DATA|END
-    message_length[4]
-    message_body[message_length]
-  */
-  socket.on('connect', () => {
-    socket.end()
-  })
-  socket.on('close', () => {
-    resolve('ooga booga')
-  })
-  socket.on('error', () => {
-    reject('oops')
-  })
+  socket.connect()
 
   return promise
 }
