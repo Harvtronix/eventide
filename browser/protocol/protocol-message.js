@@ -7,7 +7,7 @@ message format:
   message_body[message_length]
 */
 
-const MessageType = {
+export const MessageType = {
   client: {
     EMIT: 0,
     QUERY: 1
@@ -20,13 +20,14 @@ const MessageType = {
   }
 }
 
-class ProtocolMessage {
+export class ProtocolMessage {
   channelId
   type
   length
   body
 
   /**
+   * Default constructor.
    *
    * @param {number} channelId
    * @param {number} type
@@ -50,9 +51,4 @@ class ProtocolMessage {
       ...Buffer.from(this.body)
     ])
   }
-}
-
-module.exports = {
-  MessageType,
-  ProtocolMessage
 }

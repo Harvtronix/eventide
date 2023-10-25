@@ -1,7 +1,8 @@
-const { createConnection } = require('net')
-const { ProtocolMessage, MessageType } = require('./protocol/protocol-message')
+import { createConnection } from 'net'
 
-class ProtocolSocket {
+import { ProtocolMessage, MessageType } from './protocol-message.js'
+
+export class ProtocolSocket {
   _callbacks = {
     message: undefined,
     error: undefined,
@@ -89,8 +90,4 @@ class ProtocolSocket {
   on(type, callback) {
     this._callbacks[type] = callback
   }
-}
-
-module.exports = {
-  ProtocolSocket
 }

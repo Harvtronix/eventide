@@ -1,10 +1,7 @@
-const {
-  ProtocolMessage,
-  MessageType: types
-} = require('./protocol/protocol-message')
-const { ProtocolSocket } = require('./protocol-socket')
+import { MessageType } from './protocol/protocol-message.js'
+import { ProtocolSocket } from './protocol/protocol-socket.js'
 
-async function loadPageData(_event, url) {
+export async function loadPageData(_event, url) {
   const parts = /^(evn:\/\/)(.+)\/(.+)$/.exec(url)
 
   if (!parts) {
@@ -23,7 +20,7 @@ async function loadPageData(_event, url) {
 
   const socket = new ProtocolSocket(host, filePath)
   socket.on('message', (msg) => {
-    if (msg.type === types.server.OK) {
+    if (msg.type === MessageType.server.OK) {
       resolve(msg.body)
     } else {
       reject(msg)
@@ -32,8 +29,4 @@ async function loadPageData(_event, url) {
   socket.connect()
 
   return promise
-}
-
-module.exports = {
-  loadPageData
 }

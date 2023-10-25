@@ -6,6 +6,11 @@
   "author": "",
   "license": "UNLICENSED",
   "type": "module",
+  "exports": {
+    ".": {
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",

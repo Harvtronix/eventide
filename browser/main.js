@@ -1,24 +1,30 @@
-const path = require('node:path')
-const { BrowserWindow, app, ipcMain } = require('electron')
+import path from 'node:path'
+import url from 'node:url'
+import { BrowserWindow, app, ipcMain } from 'electron'
 
-const { loadPageData } = require('./load-page-data')
+import { loadPageData } from './load-page-data.js'
 
-const createWindow = () => {
+const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+
+const createWindow = async () => {
+  const preloadPath = path.join(__dirname, 'preload.mjs')
+
   const win = new BrowserWindow({
     width: 1000,
     height: 720,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: preloadPath
     }
   })
 
-  win.loadFile('index.html')
+  await win.loadFile('index.html')
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   ipcMain.handle('page-load-request', loadPageData)
 
-  createWindow()
+  await createWindow()
+
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
