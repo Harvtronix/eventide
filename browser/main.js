@@ -13,7 +13,10 @@ const createWindow = async () => {
     width: 1000,
     height: 720,
     webPreferences: {
-      preload: preloadPath
+      preload: preloadPath,
+      devTools: true,
+      sandbox: false,
+      contextIsolation: true
     }
   })
 

@@ -1,32 +1,40 @@
 import { MessageType } from './protocol/protocol-message.js'
 import { ProtocolSocket } from './protocol/protocol-socket.js'
 
+const testPage = `
+def root = [
+  show 'hello world'
+]
+`
+
 export async function loadPageData(_event, url) {
-  const parts = /^(evn:\/\/)(.+)\/(.+)$/.exec(url)
+  return Promise.resolve(testPage)
 
-  if (!parts) {
-    return undefined
-  }
+  // const parts = /^(evn:\/\/)(.+)\/(.+)$/.exec(url)
 
-  const [, protocol, host, filePath] = parts
+  // if (!parts) {
+  //   return undefined
+  // }
 
-  console.log(`${protocol}, ${host}, ${filePath}`)
+  // const [, protocol, host, filePath] = parts
 
-  let resolve, reject
-  const promise = new Promise((res, rej) => {
-    resolve = res
-    reject = rej
-  })
+  // console.log(`${protocol}, ${host}, ${filePath}`)
 
-  const socket = new ProtocolSocket(host, filePath)
-  socket.on('message', (msg) => {
-    if (msg.type === MessageType.server.OK) {
-      resolve(msg.body)
-    } else {
-      reject(msg)
-    }
-  })
-  socket.connect()
+  // let resolve, reject
+  // const promise = new Promise((res, rej) => {
+  //   resolve = res
+  //   reject = rej
+  // })
 
-  return promise
+  // const socket = new ProtocolSocket(host, filePath)
+  // socket.on('message', (msg) => {
+  //   if (msg.type === MessageType.server.OK) {
+  //     resolve(msg.body)
+  //   } else {
+  //     reject(msg)
+  //   }
+  // })
+  // socket.connect()
+
+  // return promise
 }
