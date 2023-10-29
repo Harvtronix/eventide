@@ -1,4 +1,5 @@
 import { Ast, Lexer } from '../../lang/dist/index.js'
+import { buildRenderableNodeTree } from './build-renderable-node-tree.mjs'
 
 window.addEventListener('load', () => {
   const urlInput = document.getElementById('url-input')
@@ -13,6 +14,8 @@ window.addEventListener('load', () => {
     }
 
     const ast = new Ast(new Lexer(page).tokenize())
+
+    buildRenderableNodeTree(ast)
 
     // TODO: build renderable nodes
     // TODO: render renderable nodes to main-content canvas

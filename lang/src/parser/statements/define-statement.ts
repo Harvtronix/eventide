@@ -14,7 +14,7 @@ export class DefineStatement extends Statement {
   public readonly end: number
   public readonly identifier: string
   public readonly parameters?: ParametersBody
-  public readonly body: DefineBody
+  public readonly children: [DefineBody]
 
   public constructor(context: Context) {
     super(context)
@@ -29,12 +29,12 @@ export class DefineStatement extends Statement {
 
     context.next(TokenType.equals)
 
-    this.body = new DefineBody(context)
+    this.children = [new DefineBody(context)]
 
-    this.end = this.body.end
+    this.end = this.children[0].end
   }
 
-  public accept(visitor: StatementVisitor) {
-    return visitor.visitDefineStatement(this)
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    return visitor.visitDefineStatement(this, parent)
   }
 }

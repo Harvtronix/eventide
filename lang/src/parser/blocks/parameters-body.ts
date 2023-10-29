@@ -9,17 +9,17 @@ import { Statement } from '../statement.js'
  */
 export class ParametersBody extends Statement {
   public readonly end: number
-  public readonly entries: ParameterExpression[]
+  public readonly children: ParameterExpression[]
 
   public constructor(context: Context) {
     super(context)
 
-    this.entries = []
+    this.children = []
 
     context.next(TokenType.left_bracket)
 
     while (!context.isEof()) {
-      this.entries.push(new ParameterExpression(context))
+      this.children.push(new ParameterExpression(context))
 
       if (context.peek().type === TokenType.right_bracket) {
         // End of param list

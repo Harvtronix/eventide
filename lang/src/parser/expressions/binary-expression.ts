@@ -13,7 +13,8 @@ import { StringLiteral } from '../statements/string-literal.js'
 export class BinaryExpression extends Statement {
   public readonly end: number
   public readonly left: string
-  public readonly right: StringLiteral | Reference // | Decimal | Boolean
+  public readonly right: StringLiteral | Reference // | DecimalLiteral | BooleanLiteral
+  public readonly children: undefined
 
   public constructor(context: Context) {
     super(context)

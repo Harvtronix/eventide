@@ -12,7 +12,7 @@ import { ParserError } from '../parser-error.js'
  */
 export class ShowStatement extends Statement {
   public readonly end: number
-  public readonly value: Reference | StringLiteral // | other literal values
+  public readonly children: [Reference] | [StringLiteral] // | other literal values
 
   public constructor(context: Context) {
     super(context)
@@ -21,21 +21,21 @@ export class ShowStatement extends Statement {
 
     switch (context.peek().type) {
       case TokenType.string_literal:
-        this.value = new StringLiteral(context)
+        this.children = [new StringLiteral(context)]
         break
 
       case TokenType.identifier:
-        this.value = new Reference(context)
+        this.children = [new Reference(context)]
         break
 
       default:
         throw new ParserError(context)
     }
 
-    this.end = this.value.end
+    this.end = this.children[0].end
   }
 
-  public accept(visitor: StatementVisitor): void {
-    throw new Error('Method not implemented.')
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    visitor.visitShowStatement(this, parent)
   }
 }

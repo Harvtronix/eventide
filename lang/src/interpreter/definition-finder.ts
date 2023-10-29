@@ -6,6 +6,8 @@ import { LookStatement } from '../parser/statements/look-statement.js'
 import { InterpreterError } from './interpreter-error.js'
 import { Program } from './program.js'
 import { StatementVisitor } from './statement-visitor.js'
+import { ShowStatement, StringLiteral } from '../index.js'
+import { Reference } from '../parser/reference.js'
 
 export class DefinitionFinder implements StatementVisitor {
   constructor(private program: Program) {}
@@ -31,7 +33,7 @@ export class DefinitionFinder implements StatementVisitor {
       scope: []
     }
 
-    statement.body.accept(this)
+    statement.children[0].accept(this, statement)
 
     this.program.scopeHierarchy.pop()
   }
@@ -61,5 +63,16 @@ export class DefinitionFinder implements StatementVisitor {
     // statement.statements.forEach((s) => {
     //   s.accept(this)
     // })
+  }
+
+  visitShowStatement(statement: ShowStatement): void {
+    return undefined
+  }
+
+  visitReference(reference: Reference, context: unknown): void {
+    throw new Error('Method not implemented.')
+  }
+  visitStringLiteral(stringLiteral: StringLiteral, context: unknown): void {
+    throw new Error('Method not implemented.')
   }
 }

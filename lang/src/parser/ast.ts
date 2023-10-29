@@ -6,26 +6,25 @@ import { DefineStatement } from './statements/define-statement.js'
 import { StatementVisitor } from '../interpreter/statement-visitor.js'
 import { Statement } from './statement.js'
 import { ParserError } from './parser-error.js'
-import { Renderable } from '../interpreter/renderable.js'
 
 export class Ast extends Statement {
   public readonly end: number
-  public readonly statements: Array<CommentStatement | DefineStatement>
+  public readonly children: Array<CommentStatement | DefineStatement>
 
   public constructor(tokens: Token[]) {
     const context = new Context(tokens)
     super(context)
 
-    this.statements = []
+    this.children = []
 
     while (!context.isEof()) {
       switch (context.peek().type) {
         case TokenType.comment:
-          this.statements.push(new CommentStatement(context))
+          this.children.push(new CommentStatement(context))
           break
 
         case TokenType.keyword_define:
-          this.statements.push(new DefineStatement(context))
+          this.children.push(new DefineStatement(context))
           break
 
         default:
@@ -36,7 +35,7 @@ export class Ast extends Statement {
     this.end = context.peek().end
   }
 
-  public override accept(visitor: StatementVisitor): void {
-    visitor.visitAst(this)
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    visitor.visitAst(this, undefined)
   }
 }

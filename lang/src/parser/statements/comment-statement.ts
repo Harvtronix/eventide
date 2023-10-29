@@ -9,6 +9,7 @@ import { Statement } from '../statement.js'
 export class CommentStatement extends Statement {
   public readonly end: number
   public readonly value: string
+  public readonly children: undefined
 
   public constructor(context: Context) {
     super(context)
@@ -20,7 +21,7 @@ export class CommentStatement extends Statement {
     this.end = finalToken.end
   }
 
-  public accept(visitor: StatementVisitor) {
-    return visitor.visitComment(this)
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    return visitor.visitComment(this, parent)
   }
 }

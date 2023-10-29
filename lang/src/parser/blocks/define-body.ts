@@ -16,12 +16,12 @@ import { DefineStatement } from '../statements/define-statement.js'
  */
 export class DefineBody extends Statement {
   public readonly end: number
-  public readonly statements: Statement[]
+  public readonly children: Statement[]
 
   public constructor(context: Context) {
     super(context)
 
-    this.statements = []
+    this.children = []
 
     context.next(TokenType.left_bracket)
 
@@ -31,19 +31,19 @@ export class DefineBody extends Statement {
     ) {
       switch (context.peek().type) {
         case TokenType.keyword_define:
-          this.statements.push(new DefineStatement(context))
+          this.children.push(new DefineStatement(context))
           break
 
         case TokenType.keyword_look:
-          this.statements.push(new LookStatement(context))
+          this.children.push(new LookStatement(context))
           break
 
         case TokenType.keyword_show:
-          this.statements.push(new ShowStatement(context))
+          this.children.push(new ShowStatement(context))
           break
 
         case TokenType.comment:
-          this.statements.push(new CommentStatement(context))
+          this.children.push(new CommentStatement(context))
           break
 
         default:
@@ -56,7 +56,7 @@ export class DefineBody extends Statement {
     this.end = finalToken.end
   }
 
-  public accept(visitor: StatementVisitor): void {
-    visitor.visitDefineBody(this)
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    visitor.visitDefineBody(this, parent)
   }
 }

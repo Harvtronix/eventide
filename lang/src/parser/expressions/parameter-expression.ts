@@ -12,7 +12,8 @@ import { Statement } from '../statement.js'
 export class ParameterExpression extends Statement {
   public readonly end: number
   public readonly type: string
-  public readonly identifier: string
+  public readonly value: string
+  public readonly children: undefined
 
   public constructor(context: Context) {
     super(context)
@@ -23,7 +24,7 @@ export class ParameterExpression extends Statement {
     }
 
     const finalToken = context.next(TokenType.identifier)
-    this.identifier = finalToken.value
+    this.value = finalToken.value
 
     this.end = finalToken.end
   }

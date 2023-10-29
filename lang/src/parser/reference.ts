@@ -15,6 +15,7 @@ export class Reference extends Statement {
   public readonly end: number
   public readonly to: string[]
   public readonly arguments?: ArgumentsBody
+  public readonly children: undefined
 
   public constructor(context: Context) {
     super(context)
@@ -36,7 +37,7 @@ export class Reference extends Statement {
     }
   }
 
-  public accept(visitor: StatementVisitor): void {
-    throw new Error('Method not implemented.')
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    visitor.visitReference(this, parent)
   }
 }

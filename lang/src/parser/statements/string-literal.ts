@@ -9,6 +9,7 @@ import { Statement } from '../statement.js'
 export class StringLiteral extends Statement {
   public readonly end: number
   public readonly value: string
+  public readonly children: undefined
 
   public constructor(context: Context) {
     super(context)
@@ -20,7 +21,7 @@ export class StringLiteral extends Statement {
     this.end = finalToken.end
   }
 
-  public accept(visitor: StatementVisitor): void {
-    throw new Error('Method not implemented.')
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    visitor.visitStringLiteral(this, parent)
   }
 }

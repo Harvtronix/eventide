@@ -14,7 +14,7 @@ import { LookBody } from '../blocks/look-body.js'
  */
 export class LookStatement extends Statement {
   public readonly end: number
-  public readonly value: Reference | LookBody
+  public readonly children: [LookBody] | [Reference]
 
   public constructor(context: Context) {
     super(context)
@@ -23,19 +23,19 @@ export class LookStatement extends Statement {
 
     switch (context.peek().type) {
       case TokenType.identifier:
-        this.value = new Reference(context)
+        this.children = [new Reference(context)]
         break
       case TokenType.left_bracket:
-        this.value = new LookBody(context)
+        this.children = [new LookBody(context)]
         break
       default:
         throw new ParserError(context)
     }
 
-    this.end = this.value.end
+    this.end = this.children[0].end
   }
 
-  public accept(visitor: StatementVisitor): void {
-    visitor.visitLookStatement(this)
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    visitor.visitLookStatement(this, parent)
   }
 }

@@ -4,13 +4,20 @@ import { Ast } from '../parser/ast.js'
 import { CommentStatement } from '../parser/statements/comment-statement.js'
 import { DefineStatement } from '../parser/statements/define-statement.js'
 import { LookStatement } from '../parser/statements/look-statement.js'
-import { Renderable } from './renderable.js'
+import { ShowStatement, Statement, StringLiteral } from '../index.js'
+import { Reference } from '../parser/reference.js'
 
 export interface StatementVisitor {
-  visitAst(statement: Ast): void
-  visitComment(statement: CommentStatement): void
-  visitDefineStatement(statement: DefineStatement): void
-  visitDefineBody(statement: DefineBody): void
-  visitLookStatement(statement: LookStatement): void
-  visitLookBody(statement: LookBody): void
+  visitAst(ast: Ast, parent: undefined): void
+  visitComment(commentStatement: CommentStatement, parent: Statement): void
+  visitDefineStatement(
+    defineStatement: DefineStatement,
+    parent: Statement
+  ): void
+  visitDefineBody(defineBody: DefineBody, parent: Statement): void
+  visitLookStatement(lookStatement: LookStatement, parent: Statement): void
+  visitLookBody(lookBody: LookBody, context: Statement): void
+  visitShowStatement(showStatement: ShowStatement, parent: Statement): void
+  visitReference(reference: Reference, context: Statement): void
+  visitStringLiteral(stringLiteral: StringLiteral, parent: Statement): void
 }

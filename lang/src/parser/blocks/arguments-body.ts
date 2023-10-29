@@ -9,18 +9,18 @@ import { Statement } from '../statement.js'
  */
 export class ArgumentsBody extends Statement {
   public readonly end: number
-  public readonly entries: BinaryExpression[]
+  public readonly children: BinaryExpression[]
 
   public constructor(context: Context) {
     super(context)
 
     context.next(TokenType.left_bracket)
 
-    this.entries = [new BinaryExpression(context)]
+    this.children = [new BinaryExpression(context)]
 
     while (context.peek().type !== TokenType.right_bracket) {
       context.next(TokenType.comma)
-      this.entries.push(new BinaryExpression(context))
+      this.children.push(new BinaryExpression(context))
     }
 
     const finalToken = context.next(TokenType.right_bracket)

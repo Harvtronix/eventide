@@ -12,12 +12,12 @@ import { CommentStatement } from '../statements/comment-statement.js'
  */
 export class LookBody extends Statement {
   public readonly end: number
-  public readonly statements: Statement[]
+  public readonly children: Statement[]
 
   public constructor(context: Context) {
     super(context)
 
-    this.statements = []
+    this.children = []
 
     context.next(TokenType.left_bracket)
 
@@ -27,11 +27,11 @@ export class LookBody extends Statement {
     ) {
       switch (context.peek().type) {
         case TokenType.comment:
-          this.statements.push(new CommentStatement(context))
+          this.children.push(new CommentStatement(context))
           break
 
         default:
-          this.statements.push(new BinaryExpression(context))
+          this.children.push(new BinaryExpression(context))
           break
       }
     }
@@ -41,7 +41,7 @@ export class LookBody extends Statement {
     this.end = finalToken.end
   }
 
-  public accept(visitor: StatementVisitor): void {
-    visitor.visitLookBody(this)
+  public accept(visitor: StatementVisitor, parent: Statement): void {
+    visitor.visitLookBody(this, parent)
   }
 }

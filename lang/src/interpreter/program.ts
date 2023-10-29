@@ -17,7 +17,7 @@ export class Program {
 
   public interpret(rootStatement: Ast) {
     const definitionFinder = new DefinitionFinder(this)
-    return rootStatement.accept(definitionFinder)
+    return rootStatement.accept(definitionFinder, rootStatement)
   }
 
   public hasDefinition(identifier: string) {

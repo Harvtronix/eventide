@@ -10,7 +10,7 @@ def root = [
 export async function loadPageData(_event, url) {
   return Promise.resolve(testPage)
 
-  // const parts = /^(evn:\/\/)(.+)\/(.+)$/.exec(url)
+  // const parts = /^(even:\/\/)(.+)\/(.+)$/.exec(url)
 
   // if (!parts) {
   //   return undefined
