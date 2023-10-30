@@ -7,7 +7,7 @@ import { Statement } from '../statement.js'
 /**
  * [foo='bar', baz=false]
  */
-export class ArgumentsBody extends Statement {
+export class ArgumentsList extends Statement {
   public readonly end: number
   public readonly children: BinaryExpression[]
 

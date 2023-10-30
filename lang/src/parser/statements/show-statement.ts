@@ -2,9 +2,10 @@ import { Statement } from '../statement.js'
 import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Context } from '../context.js'
 import { TokenType } from '../../token-type.js'
-import { Reference } from '../reference.js'
+import { Reference } from '../references/reference.js'
 import { StringLiteral } from './string-literal.js'
 import { ParserError } from '../parser-error.js'
+import { ArgumentedReference } from '../references/argumented-reference.js'
 
 /**
  * show foo
@@ -26,6 +27,10 @@ export class ShowStatement extends Statement {
 
       case TokenType.identifier:
         this.children = [new Reference(context)]
+
+        if (context.peek().type === TokenType.left_bracket) {
+          this.children = [new ArgumentedReference(this.children[0], context)]
+        }
         break
 
       default:

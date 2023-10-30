@@ -6,7 +6,8 @@ import { ParserError } from '../parser-error.js'
 import { LookStatement } from '../statements/look-statement.js'
 import { ShowStatement } from '../statements/show-statement.js'
 import { CommentStatement } from '../statements/comment-statement.js'
-import { DefineStatement } from '../statements/define-statement.js'
+import { DefinitionStatement } from '../statements/definition-statement.js'
+import { Reference } from '../references/reference.js'
 
 /**
  * [
@@ -14,14 +15,17 @@ import { DefineStatement } from '../statements/define-statement.js'
  *   show 'hello'
  * ]
  */
-export class DefineBody extends Statement {
+export class DefinitionBody extends Statement {
   public readonly end: number
+  public readonly definitionType: Reference
   public readonly children: Statement[]
 
   public constructor(context: Context) {
     super(context)
 
     this.children = []
+
+    this.definitionType = new Reference(context)
 
     context.next(TokenType.left_bracket)
 
@@ -30,8 +34,8 @@ export class DefineBody extends Statement {
       context.peek().type !== TokenType.right_bracket
     ) {
       switch (context.peek().type) {
-        case TokenType.keyword_define:
-          this.children.push(new DefineStatement(context))
+        case TokenType.identifier:
+          this.children.push(new DefinitionStatement(context))
           break
 
         case TokenType.keyword_look:
@@ -57,6 +61,6 @@ export class DefineBody extends Statement {
   }
 
   public accept(visitor: StatementVisitor, parent: Statement): void {
-    visitor.visitDefineBody(this, parent)
+    visitor.visitDefinitionBody(this, parent)
   }
 }

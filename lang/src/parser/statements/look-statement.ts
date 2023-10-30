@@ -3,7 +3,7 @@ import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Context } from '../context.js'
 import { TokenType } from '../../token-type.js'
 import { ParserError } from '../parser-error.js'
-import { Reference } from '../reference.js'
+import { Reference } from '../references/reference.js'
 import { LookBody } from '../blocks/look-body.js'
 
 /**

@@ -2,14 +2,14 @@ import { TokenType } from '../token-type.js'
 import { Token } from '../token.js'
 import { CommentStatement } from './statements/comment-statement.js'
 import { Context } from './context.js'
-import { DefineStatement } from './statements/define-statement.js'
+import { DefinitionStatement } from './statements/definition-statement.js'
 import { StatementVisitor } from '../interpreter/statement-visitor.js'
 import { Statement } from './statement.js'
 import { ParserError } from './parser-error.js'
 
 export class Ast extends Statement {
   public readonly end: number
-  public readonly children: Array<CommentStatement | DefineStatement>
+  public readonly children: Array<CommentStatement | DefinitionStatement>
 
   public constructor(tokens: Token[]) {
     const context = new Context(tokens)
@@ -23,8 +23,8 @@ export class Ast extends Statement {
           this.children.push(new CommentStatement(context))
           break
 
-        case TokenType.keyword_define:
-          this.children.push(new DefineStatement(context))
+        case TokenType.identifier:
+          this.children.push(new DefinitionStatement(context))
           break
 
         default:

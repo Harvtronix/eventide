@@ -6,10 +6,10 @@ import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Statement } from '../statement.js'
 
 /**
- * string foo
- * boolean isEnabled
+ * foo is str
+ * is-enabled is bool
  */
-export class ParameterExpression extends Statement {
+export class TypeAssertionExpression extends Statement {
   public readonly end: number
   public readonly type: string
   public readonly value: string
@@ -18,13 +18,17 @@ export class ParameterExpression extends Statement {
   public constructor(context: Context) {
     super(context)
 
-    this.type = context.next().value
+    this.value = context.next(TokenType.identifier).value
+
+    context.next(TokenType.keyword_is)
+
+    const finalToken = context.next()
+
+    this.type = finalToken.value
+
     if (!(this.type in types)) {
       throw new ParserError(context, 'Expected type')
     }
-
-    const finalToken = context.next(TokenType.identifier)
-    this.value = finalToken.value
 
     this.end = finalToken.end
   }

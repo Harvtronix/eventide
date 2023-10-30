@@ -1,15 +1,15 @@
 import { TokenType } from '../../token-type.js'
 import { Context } from '../context.js'
-import { ParameterExpression } from '../expressions/parameter-expression.js'
+import { TypeAssertionExpression } from '../expressions/parameter-expression.js'
 import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Statement } from '../statement.js'
 
 /**
- * [string foo, boolean bar]
+ * [foo is str, bar is bool]
  */
-export class ParametersBody extends Statement {
+export class ParametersList extends Statement {
   public readonly end: number
-  public readonly children: ParameterExpression[]
+  public readonly children: TypeAssertionExpression[]
 
   public constructor(context: Context) {
     super(context)
@@ -19,7 +19,7 @@ export class ParametersBody extends Statement {
     context.next(TokenType.left_bracket)
 
     while (!context.isEof()) {
-      this.children.push(new ParameterExpression(context))
+      this.children.push(new TypeAssertionExpression(context))
 
       if (context.peek().type === TokenType.right_bracket) {
         // End of param list

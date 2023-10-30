@@ -31,7 +31,7 @@ export class Lexer {
           this.handleComment()
           break
         case "'":
-          this.handleString()
+          this.handleStringLiteral()
           break
         case ' ':
           this.next()
@@ -145,7 +145,7 @@ export class Lexer {
     this.addToken(TokenType.comment, start, this.pos, this.line, this.col)
   }
 
-  private handleString() {
+  private handleStringLiteral() {
     this.next()
 
     const start = this.pos

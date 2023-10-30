@@ -15,19 +15,38 @@ export class Context {
     return this.peek().type === TokenType.eof
   }
 
-  public peek<T extends TokenType = TokenType>(tokenType?: T): Token<T> {
-    if (tokenType && this.tokens[this.curTokenIndex].type !== tokenType) {
-      throw new ParserError(this, `Expected "${tokenType}"`)
+  public peek<T extends TokenType = TokenType>(tokenType?: T | T[]): Token<T> {
+    if (!tokenType) {
+      return this.tokens[this.curTokenIndex] as Token<T>
     }
 
-    return this.tokens[this.curTokenIndex] as Token<T>
+    const validTokenTypes: T[] = []
+
+    if (tokenType instanceof Array) {
+      validTokenTypes.push(...tokenType)
+    } else {
+      validTokenTypes.push(tokenType)
+    }
+
+    const matchedTokenType = validTokenTypes.find(
+      (t) => this.tokens[this.curTokenIndex].type === t
+    )
+
+    if (!matchedTokenType) {
+      throw new ParserError(
+        this,
+        `Expected "${JSON.stringify(validTokenTypes)}"`
+      )
+    }
+
+    return this.tokens[this.curTokenIndex] as Token<typeof matchedTokenType>
   }
 
-  public next<T extends TokenType = TokenType>(tokenType?: T): Token<T> {
-    if (tokenType && this.tokens[this.curTokenIndex].type !== tokenType) {
-      throw new ParserError(this, `Expected "${tokenType}"`)
-    }
+  public next<T extends TokenType = TokenType>(tokenType?: T | T[]): Token<T> {
+    const token = this.peek(tokenType)
 
-    return this.tokens[this.curTokenIndex++] as Token<T>
+    this.curTokenIndex++
+
+    return token
   }
 }

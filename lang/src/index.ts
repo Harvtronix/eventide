@@ -4,7 +4,7 @@ export { Statement } from './parser/statement.js'
 export { StatementVisitor } from './interpreter/statement-visitor.js'
 
 export { CommentStatement } from './parser/statements/comment-statement.js'
-export { DefineStatement } from './parser/statements/define-statement.js'
+export { DefinitionStatement } from './parser/statements/definition-statement.js'
 export { LookStatement } from './parser/statements/look-statement.js'
 export { ShowStatement } from './parser/statements/show-statement.js'
 export { StringLiteral } from './parser/statements/string-literal.js'

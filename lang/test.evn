@@ -1,7 +1,7 @@
 // this is a comment
 // from 'standard' use button
 
-def root = [
+root = ui[
   look wowza.crazy.foo.bar
   look [
     background = 'black'
@@ -13,10 +13,28 @@ def root = [
   show custom-button[t = 'this works too, but it wont later!']
 ]
 
-def custom-button[string text] = [
+custom-button[text is str] = ui[
   look button
   look root
 
   show text
   show 'something'
+
+  boop = obj[
+    choop = 'bloop'
+    scoop = 'loop'
+  ]
+]
+
+joe = obj[
+  name = 'joe'
+  age = '35'
+]
+
+more.stuff = wow[]
+
+my-text[text is str] = ui[
+  look green
+
+  show text
 ]
