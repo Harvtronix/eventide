@@ -1,40 +1,82 @@
 // this is a comment
 // from 'standard' use button
 
-root = ui[
-  look wowza.crazy.foo.bar
-  look [
-    background = 'black'
-    foreground = 'light-gray'
-    border = stuff
-  ]
+// variable defined as string literal
+foo = 'bar'
 
-  show custom-button[text = 'hello world', other = 'wow']
-  show custom-button[t = 'this works too, but it wont later!']
+// variable defined as int literal
+foo = 123
+
+// variable defined as decimal literal
+foo = 123.456
+
+// variable defined as boolean literal
+foo = true
+
+// variable defined as result of a function call (function calls give back an object)
+thing.my-look = look[
+  background = 'green'
+  foreground = bar
 ]
 
-custom-button[text is str] = ui[
-  look button
-  look root
+// variable assigned to result of 'look' function call with kwarg object supplied
+foo = look[my-look]
+foo = look [my-look]
+// v ^ these are the same
+foo = look[
+  background = my-look.background
+  foreground = my-look.foreground
+]
 
-  show text
-  show 'something'
+// what's a better way to define this so that an arbitrary array of things can be passed in?
+foo = look[
+  0 = wowza.crazy.foo.bar
+]
 
+list = arr[
+  'hello',
+  'world'
+]
+list.append[
+  'wowow'
+]
+
+// ^ what this actually means is
+// give foo whatever properties come along with a "ui"
+// set its '0' kwarg/array arg to whatever look[foo] returns, which is an object with certain properties
+// properties this gets used later when we look through all defined variables searching for ones
+// with the "ui" defined type. within each "ui" object, we search its array arguments for statements
+// of type "look", and those are the ones we use to configure the current context drawing look.
+// then we look for show statements and make renderable nodes out of them.
+foo = ui[
+  look[foo]
+  show['hello world']
+]
+
+// ^ this is exactly the same as the above statement
+foo = ui[
+  look[foo] // spread foo
+  show[val='hello world'] // pass value
+  show['hello world'] // not allowed
+]
+
+// define an object that defines a key called 'boop' that is an object
+foo = fn[
   boop = obj[
     choop = 'bloop'
     scoop = 'loop'
   ]
 ]
 
-joe = obj[
-  name = 'joe'
-  age = '35'
+// need to figure out how to define new functions or types
+custom-function[text is str] = fn[
+  // ...
 ]
 
-more.stuff = wow[]
+// define a function where any provided arg with a key that's an int must have a value that's a
+// string
+custom-function[int is str] = fn[]
 
-my-text[text is str] = ui[
-  look green
-
-  show text
-]
+// define a function where any provided arg with a key that's a string must have a value that's a
+// boolean
+custom-fucntion[str is bool] = fn[]
