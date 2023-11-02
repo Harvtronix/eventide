@@ -1,82 +1,50 @@
 // this is a comment
 // from 'standard' use button
 
-// variable defined as string literal
+// Variable defined as string literal
 foo = 'bar'
 
-// variable defined as int literal
+// Variable defined as int literal
 foo = 123
 
-// variable defined as decimal literal
+// Variable defined as decimal literal
 foo = 123.456
 
-// variable defined as boolean literal
+// Variable defined as boolean literal
 foo = true
 
-// variable defined as result of a function call (function calls give back an object)
-thing.my-look = look[
-  background = 'green'
-  foreground = bar
-]
+obj = // native code. the root-most non-primitive construct. An empty map
 
-// variable assigned to result of 'look' function call with kwarg object supplied
-foo = look[my-look]
-foo = look [my-look]
-// v ^ these are the same
-foo = look[
-  background = my-look.background
-  foreground = my-look.foreground
+// Defines the root-most "look". The default values for all possible look attrs
+// if no other ones are defined.
+look = obj[
+  // bunch of default values
+  background-color = 'white'
+  color = 'black'
 ]
+// look == {background-color: 'white', color: 'black'}
 
-// what's a better way to define this so that an arbitrary array of things can be passed in?
-foo = look[
-  0 = wowza.crazy.foo.bar
+// Defines the root-most "show". Default value to show is just an empty string.
+show = obj[
+  show = ''
 ]
+// show == {show: ''}
 
-list = arr[
-  'hello',
-  'world'
+// Defines the root-most ui component. it has the default looks and shows an
+// empty string.
+ui = obj[
+  look[]
+  show[]
 ]
-list.append[
-  'wowow'
-]
+// ui == {background-color: 'white', color: 'black', show: ''}
 
-// ^ what this actually means is
-// give foo whatever properties come along with a "ui"
-// set its '0' kwarg/array arg to whatever look[foo] returns, which is an object with certain properties
-// properties this gets used later when we look through all defined variables searching for ones
-// with the "ui" defined type. within each "ui" object, we search its array arguments for statements
-// of type "look", and those are the ones we use to configure the current context drawing look.
-// then we look for show statements and make renderable nodes out of them.
-foo = ui[
-  look[foo]
-  show['hello world']
-]
-
-// ^ this is exactly the same as the above statement
-foo = ui[
-  look[foo] // spread foo
-  show[val='hello world'] // pass value
-  show['hello world'] // not allowed
-]
-
-// define an object that defines a key called 'boop' that is an object
-foo = fn[
-  boop = obj[
-    choop = 'bloop'
-    scoop = 'loop'
+hello-there = ui[
+  look[
+    // override background color with a different one
+    background-color = 'green'
   ]
+
+  // override show value with a different one
+  show['hello']
 ]
-
-// need to figure out how to define new functions or types
-custom-function[text is str] = fn[
-  // ...
-]
-
-// define a function where any provided arg with a key that's an int must have a value that's a
-// string
-custom-function[int is str] = fn[]
-
-// define a function where any provided arg with a key that's a string must have a value that's a
-// boolean
-custom-fucntion[str is bool] = fn[]
+// box == {background-color: 'green', color: 'black', show: 'hello'}
