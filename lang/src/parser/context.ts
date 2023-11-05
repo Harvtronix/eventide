@@ -15,9 +15,14 @@ export class Context {
     return this.peek().type === TokenType.eof
   }
 
-  public peek<T extends TokenType = TokenType>(tokenType?: T | T[]): Token<T> {
+  public peek<T extends TokenType = TokenType>(
+    tokenType?: T | T[],
+    offset: number = 0
+  ): Token<T> {
+    const idx = this.curTokenIndex + offset
+
     if (!tokenType) {
-      return this.tokens[this.curTokenIndex] as Token<T>
+      return this.tokens[idx] as Token<T>
     }
 
     const validTokenTypes: T[] = []
@@ -29,17 +34,14 @@ export class Context {
     }
 
     const matchedTokenType = validTokenTypes.find(
-      (t) => this.tokens[this.curTokenIndex].type === t
+      (t) => this.tokens[idx].type === t
     )
 
     if (!matchedTokenType) {
-      throw new ParserError(
-        this,
-        `Expected "${JSON.stringify(validTokenTypes)}"`
-      )
+      throw new ParserError(this, `Expected: ${validTokenTypes.join(',')}`)
     }
 
-    return this.tokens[this.curTokenIndex] as Token<typeof matchedTokenType>
+    return this.tokens[idx] as Token<typeof matchedTokenType>
   }
 
   public next<T extends TokenType = TokenType>(tokenType?: T | T[]): Token<T> {

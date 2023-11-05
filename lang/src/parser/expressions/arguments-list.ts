@@ -1,32 +1,26 @@
 import { TokenType } from '../../token-type.js'
 import { Context } from '../context.js'
-import { TypeAssertionExpression } from '../expressions/parameter-expression.js'
+import { BinaryStatement } from '../statements/binary-statement.js'
 import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Statement } from '../statement.js'
 
 /**
- * [foo is str, bar is bool]
+ * [foo='bar', baz=false]
  */
-export class ParametersList extends Statement {
+export class ArgumentsList extends Statement {
   public readonly end: number
-  public readonly children: TypeAssertionExpression[]
+  public readonly children: BinaryStatement[]
 
   public constructor(context: Context) {
     super(context)
 
-    this.children = []
-
     context.next(TokenType.left_bracket)
 
-    while (!context.isEof()) {
-      this.children.push(new TypeAssertionExpression(context))
+    this.children = [new BinaryStatement(context)]
 
-      if (context.peek().type === TokenType.right_bracket) {
-        // End of param list
-        break
-      }
-
+    while (context.peek().type !== TokenType.right_bracket) {
       context.next(TokenType.comma)
+      this.children.push(new BinaryStatement(context))
     }
 
     const finalToken = context.next(TokenType.right_bracket)

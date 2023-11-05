@@ -3,25 +3,26 @@ import { Context } from '../context.js'
 import { ParserError } from '../parser-error.js'
 import { StatementVisitor } from '../../interpreter/statement-visitor.js'
 import { Statement } from '../statement.js'
-import { StringLiteral } from '../statements/string-literal.js'
+import { StringLiteral } from '../expressions/string-literal.js'
 import { Reference } from '../references/reference.js'
+import { ObjectLiteral } from '../expressions/object-literal.js'
 
 /**
  * this = that
  * this = 'foo'
  * stuff = obj[...]
- * foo[text is str] = ui[...]
+ * foo[text is str] = ui[...] <-- maybe
  */
-export class BinaryExpression extends Statement {
+export class BinaryStatement extends Statement {
   public readonly end: number
   public readonly left: Reference
-  public readonly right: StringLiteral | Reference // | DecimalLiteral | BooleanLiteral
+  public readonly right: ObjectLiteral | StringLiteral | Reference // | DecimalLiteral | BooleanLiteral
   public readonly children: undefined
 
-  public constructor(context: Context) {
+  public constructor(context: Context, reference?: Reference) {
     super(context)
 
-    this.left = new Reference(context)
+    this.left = reference ?? new Reference(context)
 
     context.next(TokenType.equals)
 
@@ -32,10 +33,14 @@ export class BinaryExpression extends Statement {
 
       case TokenType.identifier:
         this.right = new Reference(context)
+
+        if (context.peek().type === TokenType.left_bracket) {
+          this.right = new ObjectLiteral(context, this.right)
+        }
         break
 
       default:
-        throw new ParserError(context, 'Expected string or identifier')
+        throw new ParserError(context, 'Expected string or object literal')
     }
 
     this.end = this.right.end

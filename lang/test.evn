@@ -5,20 +5,20 @@
 foo = 'bar'
 
 // Variable defined as int literal
-foo = 123
+// foo = 123
 
 // Variable defined as decimal literal
-foo = 123.456
+// foo = 123.456
 
 // Variable defined as boolean literal
-foo = true
+// foo = true
 
-obj = // native code. the root-most non-primitive construct. An empty map
+// obj = // native code. the root-most non-primitive construct. An empty map
 
 // Defines the root-most "look". The default values for all possible look attrs
 // if no other ones are defined.
+// bunch of default values
 look = obj[
-  // bunch of default values
   background-color = 'white'
   color = 'black'
 ]
@@ -39,12 +39,26 @@ ui = obj[
 // ui == {background-color: 'white', color: 'black', show: ''}
 
 hello-there = ui[
+  // override background color with a different one
   look[
-    // override background color with a different one
-    background-color = 'green'
+    background-color = 'green' // end of statement comment
   ]
 
   // override show value with a different one
-  show['hello']
+  show[
+    show='hello'
+  ] // end of expression comment
 ]
 // box == {background-color: 'green', color: 'black', show: 'hello'}
+
+// Comprehensive object literal assignment
+hello-there = ui[
+  foo = 'asdf'
+  bar = baz
+  bat[]
+  bop[
+    buzz = 'hello'
+  ]
+  beep.boop[]
+  goop = geep.goop
+]

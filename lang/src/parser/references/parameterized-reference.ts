@@ -1,5 +1,5 @@
 import { StatementVisitor } from '../../interpreter/statement-visitor.js'
-import { ParametersList } from '../blocks/parameters-list.js'
+import { ParametersList } from '../expressions/parameters-list.js'
 import { Context } from '../context.js'
 import { Statement } from '../statement.js'
 import { Reference } from './reference.js'

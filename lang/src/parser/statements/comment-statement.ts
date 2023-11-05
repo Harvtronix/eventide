@@ -21,6 +21,16 @@ export class CommentStatement extends Statement {
     this.end = finalToken.end
   }
 
+  public static consumeComments(context: Context) {
+    const comments = []
+
+    while (context.peek().type === TokenType.comment) {
+      comments.push(new CommentStatement(context))
+    }
+
+    return comments
+  }
+
   public accept(visitor: StatementVisitor, parent: Statement): void {
     return visitor.visitComment(this, parent)
   }

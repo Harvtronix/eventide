@@ -2,14 +2,14 @@ import { TokenType } from '../token-type.js'
 import { Token } from '../token.js'
 import { CommentStatement } from './statements/comment-statement.js'
 import { Context } from './context.js'
-import { DefinitionStatement } from './statements/definition-statement.js'
 import { StatementVisitor } from '../interpreter/statement-visitor.js'
 import { Statement } from './statement.js'
 import { ParserError } from './parser-error.js'
+import { BinaryStatement } from './statements/binary-statement.js'
 
 export class Ast extends Statement {
   public readonly end: number
-  public readonly children: Array<CommentStatement | DefinitionStatement>
+  public readonly children: Array<CommentStatement | BinaryStatement>
 
   public constructor(tokens: Token[]) {
     const context = new Context(tokens)
@@ -24,7 +24,7 @@ export class Ast extends Statement {
           break
 
         case TokenType.identifier:
-          this.children.push(new DefinitionStatement(context))
+          this.children.push(new BinaryStatement(context))
           break
 
         default:

@@ -3,9 +3,9 @@ export enum TokenType {
   string_literal = 'string_literal',
 
   // keywords
-  keyword_look = 'look',
+  // keyword_look = 'look',
   keyword_is = 'is',
-  keyword_show = 'show',
+  // keyword_show = 'show',
   // keyword_define = 'def',
   // keyword_from = 'from',
   // keyword_function = 'function',
