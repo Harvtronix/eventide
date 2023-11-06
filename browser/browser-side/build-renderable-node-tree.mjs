@@ -6,7 +6,13 @@ import * as Eventide from '../../lang/dist/index.js'
  * @param {Ast} ast
  */
 export function buildRenderableNodeTree(ast) {
-  const program = {}
+  const program = {
+    obj: {}
+  }
+  Object.defineProperty(program, '_parent', {
+    enumerable: false,
+    value: undefined
+  })
   let curScope = program
   let curProperty
 
@@ -37,10 +43,23 @@ export function buildRenderableNodeTree(ast) {
       if (parent.type === Eventide.BinaryStatement.name) {
         if (!curScope[curProperty]) {
           curScope[curProperty] = {}
+          Object.defineProperty(curScope[curProperty], '_parent', {
+            enumerable: false,
+            value: curScope
+          })
         }
 
         curScope = curScope[curProperty]
       }
+
+      // sprinkle in the referenced object's properties
+      const inheritedObj = findNearestRef(
+        objectLiteral.objectType.to.join('.'),
+        curScope
+      )
+      Object.entries(inheritedObj).forEach(([k, v]) => {
+        curScope[k] = v
+      })
 
       objectLiteral.children.forEach((c) => {
         c.accept(visitor, objectLiteral)
@@ -56,4 +75,24 @@ export function buildRenderableNodeTree(ast) {
   ast.accept(visitor, undefined)
 
   return program
+}
+
+/**
+ * Finds the closest ref (depth-wise) with the given refName.
+ *
+ * @param {string} refName
+ * @param {*} scope
+ */
+function findNearestRef(refName, scope) {
+  const ref = scope[refName]
+
+  if (ref) {
+    return ref
+  }
+
+  if (scope._parent === undefined) {
+    throw new Error('Ref not found: ' + refName)
+  }
+
+  return findNearestRef(refName, scope._parent)
 }

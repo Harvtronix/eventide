@@ -2,11 +2,26 @@ import { MessageType } from './protocol/protocol-message.js'
 import { ProtocolSocket } from './protocol/protocol-socket.js'
 
 const testPage = `
-root = obj[
-  show[show='hello world']
-  stuff='wow'
-  nesting = obj[
-    more = 'things'
+look = obj[
+  background-color = 'white'
+  color = 'black'
+]
+show = obj[
+  show = ''
+]
+ui = obj[
+  look[]
+  show[]
+]
+root = ui[
+  look[
+    background-color = 'green'
+  ]
+  show[
+    show='hello'
+    nested=obj[
+      foo='bar'
+    ]
   ]
 ]
 `
