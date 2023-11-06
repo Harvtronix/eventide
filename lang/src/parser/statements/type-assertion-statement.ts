@@ -2,14 +2,14 @@ import { types } from '../../token-maps/types.js'
 import { TokenType } from '../../token-type.js'
 import { Context } from '../context.js'
 import { ParserError } from '../parser-error.js'
-import { StatementVisitor } from '../../interpreter/statement-visitor.js'
-import { Statement } from '../statement.js'
+import { AstNodeVisitor } from '../../interpreter/ast-node-visitor.js'
+import { AstNode } from '../ast-node.js'
 
 /**
  * foo is str
  * is-enabled is bool
  */
-export class TypeAssertionExpression extends Statement {
+export class TypeAssertionStatement extends AstNode {
   public readonly end: number
   public readonly type: string
   public readonly value: string
@@ -33,7 +33,7 @@ export class TypeAssertionExpression extends Statement {
     this.end = finalToken.end
   }
 
-  public accept(visitor: StatementVisitor): void {
+  public accept(visitor: AstNodeVisitor): void {
     throw new Error('Method not implemented.')
   }
 }

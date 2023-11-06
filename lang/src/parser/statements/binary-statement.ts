@@ -1,19 +1,18 @@
 import { TokenType } from '../../token-type.js'
 import { Context } from '../context.js'
 import { ParserError } from '../parser-error.js'
-import { StatementVisitor } from '../../interpreter/statement-visitor.js'
-import { Statement } from '../statement.js'
+import { AstNodeVisitor } from '../../interpreter/ast-node-visitor.js'
+import { AstNode } from '../ast-node.js'
 import { StringLiteral } from '../expressions/string-literal.js'
-import { Reference } from '../references/reference.js'
+import { Reference } from '../expressions/reference.js'
 import { ObjectLiteral } from '../expressions/object-literal.js'
 
 /**
  * this = that
  * this = 'foo'
  * stuff = obj[...]
- * foo[text is str] = ui[...] <-- maybe
  */
-export class BinaryStatement extends Statement {
+export class BinaryStatement extends AstNode {
   public readonly end: number
   public readonly left: Reference
   public readonly right: ObjectLiteral | StringLiteral | Reference // | DecimalLiteral | BooleanLiteral
@@ -46,7 +45,7 @@ export class BinaryStatement extends Statement {
     this.end = this.right.end
   }
 
-  public accept(visitor: StatementVisitor): void {
+  public accept(visitor: AstNodeVisitor): void {
     throw new Error('Method not implemented.')
   }
 }

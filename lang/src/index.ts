@@ -1,6 +1,6 @@
 export { Lexer } from './lexer.js'
 export { Ast } from './parser/ast.js'
-export { Statement } from './parser/statement.js'
-export { StatementVisitor } from './interpreter/statement-visitor.js'
+export { AstNode } from './parser/ast-node.js'
+export { AstNodeVisitor } from './interpreter/ast-node-visitor.js'
 export { CommentStatement } from './parser/statements/comment-statement.js'
 export { StringLiteral } from './parser/expressions/string-literal.js'

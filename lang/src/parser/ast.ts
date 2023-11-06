@@ -2,12 +2,12 @@ import { TokenType } from '../token-type.js'
 import { Token } from '../token.js'
 import { CommentStatement } from './statements/comment-statement.js'
 import { Context } from './context.js'
-import { StatementVisitor } from '../interpreter/statement-visitor.js'
-import { Statement } from './statement.js'
+import { AstNodeVisitor } from '../interpreter/ast-node-visitor.js'
+import { AstNode } from './ast-node.js'
 import { ParserError } from './parser-error.js'
 import { BinaryStatement } from './statements/binary-statement.js'
 
-export class Ast extends Statement {
+export class Ast extends AstNode {
   public readonly end: number
   public readonly children: Array<CommentStatement | BinaryStatement>
 
@@ -35,7 +35,7 @@ export class Ast extends Statement {
     this.end = context.peek().end
   }
 
-  public accept(visitor: StatementVisitor, parent: Statement): void {
+  public accept(visitor: AstNodeVisitor, parent: AstNode): void {
     visitor.visitAst(this, undefined)
   }
 }

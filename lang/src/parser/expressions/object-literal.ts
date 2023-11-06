@@ -1,9 +1,9 @@
-import { Statement } from '../statement.js'
-import { StatementVisitor } from '../../interpreter/statement-visitor.js'
+import { AstNode } from '../ast-node.js'
+import { AstNodeVisitor } from '../../interpreter/ast-node-visitor.js'
 import { Context } from '../context.js'
 import { TokenType } from '../../token-type.js'
 import { ParserError } from '../parser-error.js'
-import { Reference } from '../references/reference.js'
+import { Reference } from './reference.js'
 import { BinaryStatement } from '../statements/binary-statement.js'
 import { CommentStatement } from '../statements/comment-statement.js'
 
@@ -14,7 +14,7 @@ import { CommentStatement } from '../statements/comment-statement.js'
  *   baz[]
  * ]
  */
-export class ObjectLiteral extends Statement {
+export class ObjectLiteral extends AstNode {
   public readonly end: number
   public readonly objectType: Reference
   public readonly children: Array<
@@ -62,7 +62,7 @@ export class ObjectLiteral extends Statement {
     this.end = finalToken.end
   }
 
-  public accept(visitor: StatementVisitor, parent: Statement): void {
+  public accept(visitor: AstNodeVisitor, parent: AstNode): void {
     visitor.visitDefinitionBody(this, parent)
   }
 }

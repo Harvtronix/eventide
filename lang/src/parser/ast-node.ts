@@ -1,11 +1,11 @@
-import { StatementVisitor } from '../interpreter/statement-visitor.js'
+import { AstNodeVisitor } from '../interpreter/ast-node-visitor.js'
 import { Context } from './context.js'
 
-abstract class Statement {
+export abstract class AstNode {
   public readonly type: string
   public readonly start: number
   public abstract readonly end: number
-  public abstract readonly children?: Statement[]
+  public abstract readonly children?: AstNode[]
   public readonly value?: string | number | boolean
 
   protected constructor(context: Context) {
@@ -13,7 +13,5 @@ abstract class Statement {
     this.start = context.peek().start
   }
 
-  public abstract accept(visitor: StatementVisitor, parent: Statement): void
+  public abstract accept(visitor: AstNodeVisitor, parent: AstNode): void
 }
-
-export { Statement }

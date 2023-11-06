@@ -1,15 +1,15 @@
-import { StatementVisitor } from '../../interpreter/statement-visitor.js'
+import { AstNodeVisitor } from '../../interpreter/ast-node-visitor.js'
 import { types } from '../../token-maps/types.js'
 import { TokenType } from '../../token-type.js'
 import { Token } from '../../token.js'
 import { Context } from '../context.js'
-import { Statement } from '../statement.js'
+import { AstNode } from '../ast-node.js'
 
 /**
  * foo
  * foo.buzz.bip
  */
-export class Reference extends Statement {
+export class Reference extends AstNode {
   public readonly end: number
   public readonly to: string[]
   public readonly children: undefined
@@ -32,7 +32,7 @@ export class Reference extends Statement {
     this.end = curToken.end
   }
 
-  public accept(visitor: StatementVisitor, parent: Statement): void {
+  public accept(visitor: AstNodeVisitor, parent: AstNode): void {
     throw new Error('Method not implemented.')
   }
 }

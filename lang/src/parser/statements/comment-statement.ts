@@ -1,12 +1,12 @@
 import { TokenType } from '../../token-type.js'
 import { Context } from '../context.js'
-import { StatementVisitor } from '../../interpreter/statement-visitor.js'
-import { Statement } from '../statement.js'
+import { AstNodeVisitor } from '../../interpreter/ast-node-visitor.js'
+import { AstNode } from '../ast-node.js'
 
 /**
  * // some text
  */
-export class CommentStatement extends Statement {
+export class CommentStatement extends AstNode {
   public readonly end: number
   public readonly value: string
   public readonly children: undefined
@@ -31,7 +31,7 @@ export class CommentStatement extends Statement {
     return comments
   }
 
-  public accept(visitor: StatementVisitor, parent: Statement): void {
+  public accept(visitor: AstNodeVisitor, parent: AstNode): void {
     return visitor.visitComment(this, parent)
   }
 }
