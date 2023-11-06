@@ -53,12 +53,12 @@ hello-there = ui[
 
 // Comprehensive object literal assignment
 hello-there = ui[
-  foo = 'asdf'
-  bar = baz
-  bat[]
-  bop[
+  foo = 'asdf' // set foo to 'asdf' on ui
+  bar = baz // set bar to baz on ui
+  bat[] // set all attrs of bat on ui
+  bop[ // set all attrs of bop on ui, but change buzz to 'hello'
     buzz = 'hello'
   ]
-  beep.boop[]
-  goop = geep.goop
+  beep.boop[] // set all attrs of beep.boop on ui
+  goop = geep.goop // set goop to geep.goop on ui
 ]
