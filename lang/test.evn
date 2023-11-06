@@ -61,4 +61,5 @@ hello-there = ui[
   ]
   beep.boop[] // set all attrs of beep.boop on ui
   goop = geep.goop // set goop to geep.goop on ui
+  not.allowed = baz // must be a property name, not a qualified reference
 ]

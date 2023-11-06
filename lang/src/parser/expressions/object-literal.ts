@@ -63,6 +63,6 @@ export class ObjectLiteral extends AstNode {
   }
 
   public accept(visitor: AstNodeVisitor, parent: AstNode): void {
-    visitor.visitDefinitionBody(this, parent)
+    visitor.visitObjectLiteral(this, parent)
   }
 }

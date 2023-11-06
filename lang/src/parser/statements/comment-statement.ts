@@ -32,6 +32,6 @@ export class CommentStatement extends AstNode {
   }
 
   public accept(visitor: AstNodeVisitor, parent: AstNode): void {
-    return visitor.visitComment(this, parent)
+    return visitor.visitCommentStatement(this, parent)
   }
 }

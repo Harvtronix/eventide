@@ -15,11 +15,11 @@ window.addEventListener('load', () => {
 
     const ast = new Ast(new Lexer(page).tokenize())
 
-    buildRenderableNodeTree(ast)
+    const renderableNodeTree = buildRenderableNodeTree(ast)
 
-    // TODO: build renderable nodes
     // TODO: render renderable nodes to main-content canvas
 
     console.log(ast)
+    console.log(renderableNodeTree)
   })
 })

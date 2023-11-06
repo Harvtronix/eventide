@@ -33,7 +33,7 @@ export class TypeAssertionStatement extends AstNode {
     this.end = finalToken.end
   }
 
-  public accept(visitor: AstNodeVisitor): void {
-    throw new Error('Method not implemented.')
+  public accept(visitor: AstNodeVisitor, parent: AstNode): void {
+    visitor.visitTypeAssertionStatement(this, parent)
   }
 }

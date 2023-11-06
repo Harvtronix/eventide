@@ -2,8 +2,12 @@ import { MessageType } from './protocol/protocol-message.js'
 import { ProtocolSocket } from './protocol/protocol-socket.js'
 
 const testPage = `
-def root = [
-  show 'hello world'
+root = obj[
+  show[show='hello world']
+  stuff='wow'
+  nesting = obj[
+    more = 'things'
+  ]
 ]
 `
 

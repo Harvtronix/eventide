@@ -45,7 +45,7 @@ export class BinaryStatement extends AstNode {
     this.end = this.right.end
   }
 
-  public accept(visitor: AstNodeVisitor): void {
-    throw new Error('Method not implemented.')
+  public accept(visitor: AstNodeVisitor, parent: AstNode): void {
+    visitor.visitBinaryStatement(this, parent)
   }
 }

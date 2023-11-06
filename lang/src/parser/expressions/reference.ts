@@ -33,6 +33,6 @@ export class Reference extends AstNode {
   }
 
   public accept(visitor: AstNodeVisitor, parent: AstNode): void {
-    throw new Error('Method not implemented.')
+    visitor.visitReference(this, parent)
   }
 }
