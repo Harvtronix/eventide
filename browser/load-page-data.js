@@ -2,6 +2,9 @@ import { MessageType } from './protocol/protocol-message.js'
 import { ProtocolSocket } from './protocol/protocol-socket.js'
 
 const testPage = `
+//
+// BEGIN BUILT-IN OBJECTS
+//
 look = obj[
   background-color = 'white'
   color = 'black'
@@ -13,6 +16,9 @@ ui = obj[
   look[]
   show[]
 ]
+//
+// END BUILT-IN OBJECTS
+//
 root = ui[
   look[
     background-color = 'green'

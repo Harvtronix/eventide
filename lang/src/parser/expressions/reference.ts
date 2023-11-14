@@ -1,5 +1,4 @@
 import { AstNodeVisitor } from '../../interpreter/ast-node-visitor.js'
-import { types } from '../../token-maps/types.js'
 import { TokenType } from '../../token-type.js'
 import { Token } from '../../token.js'
 import { Context } from '../context.js'
@@ -17,15 +16,12 @@ export class Reference extends AstNode {
   public constructor(context: Context) {
     super(context)
 
-    let curToken: Token = context.next([
-      TokenType.identifier,
-      ...Object.values(types)
-    ])
+    let curToken: Token = context.next([TokenType.identifier])
     this.to = [curToken.value]
 
     while (context.peek().type === TokenType.dot) {
       context.next(TokenType.dot)
-      curToken = context.next([TokenType.identifier, ...Object.values(types)])
+      curToken = context.next([TokenType.identifier])
       this.to.push(curToken.value)
     }
 

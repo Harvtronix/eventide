@@ -6,6 +6,7 @@ import { ParserError } from '../parser-error.js'
 import { Reference } from './reference.js'
 import { BinaryStatement } from '../statements/binary-statement.js'
 import { CommentStatement } from '../statements/comment-statement.js'
+import { literals } from '../../token-maps/literals.js'
 
 /**
  * obj[
@@ -28,6 +29,12 @@ export class ObjectLiteral extends AstNode {
     this.objectType = objectType ?? new Reference(context)
 
     context.next(TokenType.left_bracket)
+
+    if (context.peek().value in literals) {
+      // TODO: handle literal shorthand assignment syntax
+    } else {
+      // TODO: handle normal key/value assignment syntax
+    }
 
     while (
       !context.isEof() &&

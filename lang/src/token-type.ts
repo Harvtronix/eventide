@@ -1,29 +1,21 @@
 export enum TokenType {
   comment = 'comment',
+
+  boolean_literal = 'boolean_literal',
+  decimal_literal = 'decimal_literal',
+  integer_literal = 'integer_literal',
   string_literal = 'string_literal',
 
+  identifier = 'identifier',
+
   // keywords
-  // keyword_look = 'look',
   keyword_is = 'is',
-  // keyword_show = 'show',
-  // keyword_define = 'def',
-  // keyword_from = 'from',
-  // keyword_function = 'function',
-  // keyword_on = 'on',
-  // keyword_param = 'param',
-  // keyword_shape = 'shape',
 
   // primitive types
-  type_boolean = 'bool',
-  type_decimal = 'dec',
-  type_integer = 'int',
-  type_string = 'str',
-
-  // complex types
-  // type_object = 'obj',
-  // type_array = 'arr',
-  // type_ui = 'ui',
-  // type_function = 'fn',
+  // type_boolean = 'bool',
+  // type_decimal = 'dec',
+  // type_integer = 'int',
+  // type_string = 'str',
 
   // single chars
   left_bracket = '[',
@@ -31,7 +23,5 @@ export enum TokenType {
   dot = '.',
   comma = ',',
   equals = '=',
-
-  identifier = 'identifier',
   eof = '\0'
 }

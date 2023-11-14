@@ -1,7 +1,6 @@
 import { keywords } from './token-maps/keywords.js'
 import { TokenType } from './token-type.js'
 import { Token } from './token.js'
-import { types } from './token-maps/types.js'
 
 export class Lexer {
   private readonly source: string
@@ -188,14 +187,6 @@ export class Lexer {
     if (identifierString in keywords) {
       this.addToken(
         keywords[identifierString as keyof typeof keywords],
-        start,
-        this.pos,
-        this.line,
-        this.col
-      )
-    } else if (identifierString in types) {
-      this.addToken(
-        types[identifierString as keyof typeof types],
         start,
         this.pos,
         this.line,
